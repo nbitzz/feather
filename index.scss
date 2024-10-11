@@ -1,0 +1,69 @@
+@import "@fontsource-variable/source-serif-4";
+
+:root {
+    --bg: #555;
+    --col: #eee;
+    --sub: #aaa;
+    --bad: #ffaaaa;
+    --ok: #ffffaa;
+    --good: #aaffaa;
+}
+
+body {
+    font-family: "Source Serif 4", serif;
+    background-color: var(--bg);
+    color: var(--col);
+}
+
+h1 {
+    text-transform: lowercase;
+    font-style: oblique;
+    font-weight: 300;
+}
+
+.tableContainer {
+    overflow-x: auto;
+    table {
+        border-collapse: collapse;
+        margin: auto;
+
+        tr:first-of-type > td:first-of-type {
+            border: 0;
+        }
+
+        td {
+            padding:.25em 1em;
+            text-align: center;
+            border: 1px solid var(--sub);
+        }
+    }
+}
+
+main {
+    max-width: 45em;
+    margin: auto;
+    padding: 0 1em;
+}
+
+small, a, .tagline {
+    color: var(--sub);
+}
+
+a {
+    text-decoration: underline dashed;
+}
+
+.tagline {
+    margin-left: 2em;;
+}
+
+.bad {
+    color: var(--bad)
+}
+.ok {
+    color: var(--ok)
+}
+.good {
+    color: var(--good);
+    text-shadow: 0 0 10px var(--good);
+}
