@@ -1,0 +1,91 @@
+{
+    "{{firefox}}.manifest_version": 2,
+    "{{chrome}}.manifest_version": 3,
+    "name": "feather",
+    "version": "0.0.1",
+    
+    "description": "Lightweight, PreMiD-compatible extension which brings Discord rich presence to your browser",
+
+    "icons": {
+        "24": "icons/icon-24.png",
+        "48": "icons/icon-48.png",
+        "128": "icons/icon-128.png"
+    },
+
+    "{{firefox}}.permissions": [
+        "ws://127.0.0.1:6463/*",
+        "ws://127.0.0.1:6464/*",
+        "ws://127.0.0.1:6465/*",
+        "ws://127.0.0.1:6466/*",
+        "ws://127.0.0.1:6467/*",
+        "ws://127.0.0.1:6468/*",
+        "ws://127.0.0.1:6469/*",
+        "ws://127.0.0.1:6470/*",
+        "ws://127.0.0.1:6471/*",
+        "ws://127.0.0.1:6472/*",
+        "ws://127.0.0.1:6473/*",
+        "declarativeNetRequest",
+        "scripting",
+        "storage"
+    ],
+
+    "{{firefox}}.optional_permissions": [
+        "https://discord.com/humans.txt?__feather_rpc_slave",
+        "<all_urls>"
+    ],
+
+    "{{chrome}}.permissions": [
+        "storage",
+        "scripting",
+        "declarativeNetRequest"
+    ],
+
+    "{{chrome}}.host_permissions": [
+        "ws://127.0.0.1:6463/*",
+        "ws://127.0.0.1:6464/*",
+        "ws://127.0.0.1:6465/*",
+        "ws://127.0.0.1:6466/*",
+        "ws://127.0.0.1:6467/*",
+        "ws://127.0.0.1:6468/*",
+        "ws://127.0.0.1:6469/*",
+        "ws://127.0.0.1:6470/*",
+        "ws://127.0.0.1:6471/*",
+        "ws://127.0.0.1:6472/*",
+        "ws://127.0.0.1:6473/*"
+    ],
+
+    "{{chrome}}.optional_host_permissions": [
+        "https://discord.com/humans.txt?__feather_rpc_slave",
+        "<all_urls>"
+    ],
+    
+    "{{firefox}}.background": {
+        "page": "src/background/firefox/index.html",
+        "persistent": true
+    },
+
+    "{{chrome}}.background": {
+        "page": "src/background/chrome/worker.ts"
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["https://discord.com/humans.txt?__feather_rpc_slave"],
+            "js": ["src/rpc/child/index.ts"],
+            "world": "MAIN",
+            "all_frames": true
+        }
+    ],
+
+    "{{firefox}}.browser_action": {
+        "default_icon": "icons/icon-48.png",
+        "default_popup": "src/ui/main.html"
+    },
+
+    "{{chrome}}.action": {
+        "default_icon": {
+            "48": "icons/icon-48.png"
+        },
+        "default_popup": "src/ui/main.html"
+    }
+}
