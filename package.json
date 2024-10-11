@@ -16,6 +16,7 @@
     "vite": "^4.5.5"
   },
   "dependencies": {
+    "@fontsource-variable/noto-serif": "^5.1.0",
     "@fontsource-variable/source-serif-4": "^5.1.0"
   }
 }

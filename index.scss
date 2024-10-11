@@ -1,4 +1,5 @@
-@import "@fontsource-variable/source-serif-4";
+@import "@fontsource-variable/noto-serif";
+@import "@fontsource-variable/noto-serif/standard-italic.css";
 
 :root {
     --bg: #555;
@@ -10,7 +11,7 @@
 }
 
 body {
-    font-family: "Source Serif 4 Variable", "Source Serif 4", serif;
+    font-family: "Noto Serif Variable", "Noto Serif", serif;
     background-color: var(--bg);
     color: var(--col);
 }
@@ -19,6 +20,9 @@ h1 {
     text-transform: lowercase;
     font-style: oblique;
     font-weight: 300;
+}
+h1, em {
+    font-variation-settings: 'ital' 1;
 }
 
 .tableContainer {
