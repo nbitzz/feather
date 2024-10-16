@@ -1,10 +1,11 @@
-import { Child } from "./shared.js";
+import { Child } from "./shared.js"
+import { z } from "zod"
+import * as Standard from "../../standard.js"
 
 /**
  * @description Firefox child. Since we build an MV2 extension while targeting Firefox, we can
  */
 export class FxChild extends Child {
-
     frame?: HTMLIFrameElement
 
     constructor() {
@@ -12,7 +13,10 @@ export class FxChild extends Child {
     }
 
     async destroy() {
-        this.frame
+        if (!this.frame) return
+        this.frame.src = ""
+        this.frame.remove()
+        this.frame = undefined
     }
 
     async _reset() {
@@ -27,12 +31,22 @@ export class FxChild extends Child {
             */
 
             this.frame = document.createElement("iframe")
-            this.frame.src = "https://discord.com/humans.txt?__feather_rpc_slave"
+            this.frame.src =
+                "https://discord.com/humans.txt?__feather_rpc_slave"
+
+            window.addEventListener("message", ({ data }) => {
+                // check if this is a good CTPRequest
+                const { success, data: final } =
+                    Standard.CTPRequest.safeParse(data)
+
+                if (!success) return // return if it's not
+                this.processRequest(final) // process if it is
+            })
         }
     }
 
-    sendRawMessage() {
-        this.frame
+    sendRequest(message: z.infer<typeof Standard.PTCRequest>) {
+        if (!this.frame) return
+        this.frame.contentWindow?.postMessage(message, "https://discord.com")
     }
-
 }
