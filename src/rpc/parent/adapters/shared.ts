@@ -1,14 +1,14 @@
-import EventEmitter from "../../../util/events.js";
+import EventEmitter from "../../../../packages/events/dist/index.js";
 import { CrChild } from "./chrome.js";
 import { FxChild } from "./firefox.js";
 
-export abstract class Child extends EventEmitter<{ available: [], ready: [], disconnected: [] }> {
+export abstract class Child extends EventEmitter<{ available: [], ready: [], disconnected: [], message: [] }> {
     
     available: boolean = false
     usable: boolean = false
-    protected abstract destroy(): Promise<void>
     protected abstract _reset(): Promise<void>
     protected abstract sendRawMessage(message: string): void
+    abstract destroy(): Promise<void>
     
     private processRawMessage(message: string) {
         

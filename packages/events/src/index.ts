@@ -56,22 +56,21 @@ export default class EventEmitter<Events extends EventList> {
             EventListenerList.splice(idx, 1)
     }
 
-    emit<ChosenEvent extends keyof Events>(event: ChosenEvent, ...emissions: Events[ChosenEvent]) {
+    async emit<ChosenEvent extends keyof Events>(event: ChosenEvent, ...emissions: Events[ChosenEvent]) {
         const EventListenerList = this.getListenersFor(event)
 
-        EventListenerList.slice(0).forEach((listener, index) => {
+        for (let [index, listener] of EventListenerList.entries()) {
             // Remove listeners marked with `once`
             if (listener.once)
                 EventListenerList.splice(index, 1)
             
             // Try executing the listener
             try {
-                listener.callback(...emissions.slice(0) as Events[ChosenEvent])
+                await listener.callback(...emissions.slice(0) as Events[ChosenEvent])
             } catch (e) {
                 console.error(e)
             }
-        })
+        }
     }
-    
-}
 
+}

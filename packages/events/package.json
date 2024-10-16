@@ -1,0 +1,15 @@
+{
+  "name": "@feather-ext/events",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "nbitzz",
+  "license": "MIT",
+  "description": "Node.js-less EventEmitter for Feather"
+}

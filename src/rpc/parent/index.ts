@@ -20,12 +20,17 @@ async function putRules() {
                         {
                             header: "X-Frame-Options",
                             operation: "remove"
+                        },
+                        { // just in case Discord changes this
+                            header: "Content-Type",
+                            operation: "set",
+                            value: "text/plain"
                         }
                     ],
                     type: "modifyHeaders"
                 },
                 condition: {
-                    urlFilter: "https://discord.com/humans.txt?__feather_rpc_slave",
+                    urlFilter: "|https://discord.com/humans.txt?__feather_rpc_slave|",
                     tabIds: [ browser.tabs.TAB_ID_NONE ]
                 }
             }
