@@ -26,7 +26,8 @@
     "{{chrome}}.permissions": [
         "storage",
         "scripting",
-        "declarativeNetRequest"
+        "declarativeNetRequest",
+        "offscreen"
     ],
 
     "{{chrome}}.host_permissions": [
