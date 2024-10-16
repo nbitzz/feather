@@ -199,14 +199,21 @@ export default class Gateway extends EventEmitter<{
     connect(to?: string) {
         return new Promise(async (res, rej) => {
             // Get gateway URL
-            const url =
+            const url = new URL(
                 to ||
-                this.cachedGatewayUrl ||
-                (this.cachedGatewayUrl = (
-                    (await (
-                        await fetch(`${baseUrl}/gateway`)
-                    ).json()) as Discord.APIGatewayInfo
-                ).url)
+                    this.cachedGatewayUrl ||
+                    (this.cachedGatewayUrl = (
+                        (await (
+                            await fetch(`${baseUrl}/gateway`)
+                        ).json()) as Discord.APIGatewayInfo
+                    ).url)
+            )
+
+            // Add query params to specify version, encoding
+
+            url.searchParams.append("v", "9")
+            url.searchParams.append("encoding", "json")
+            // url.searchParams.append("compression", "zlib-stream")
 
             // Connect to the gateway
             this.ws = new WebSocket(url)
