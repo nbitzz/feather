@@ -11,7 +11,7 @@ export abstract class Child extends EventEmitter<{
 }> {
     available: boolean = false
     usable: boolean = false
-    protected abstract _reset(): Promise<void>
+    protected abstract spawn(): Promise<void>
     abstract sendRequest(message: z.infer<typeof Standard.PTCRequest>): void
     abstract destroy(): Promise<void>
 
@@ -19,7 +19,7 @@ export abstract class Child extends EventEmitter<{
 
     async reset() {
         await this.destroy()
-        await this._reset()
+        await this.spawn()
     }
 }
 

@@ -19,7 +19,7 @@ export class FxChild extends Child {
         this.frame = undefined
     }
 
-    async _reset() {
+    async spawn() {
         {
             /*
 

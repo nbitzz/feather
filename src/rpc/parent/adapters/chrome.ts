@@ -5,7 +5,7 @@ export class CrChild extends Child {
         super()
     }
 
-    async _reset() {}
+    async spawn() {}
 
     async destroy() {
         throw new Error(`not implemented for CrChild`)
