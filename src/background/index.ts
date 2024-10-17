@@ -1,5 +1,2 @@
-
-import pako from "pako"
-
-let pak = pako
-console.log(pak)
+import ChildSingleton from "../rpc/parent/index.js"
+await ChildSingleton.reset()
