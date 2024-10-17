@@ -3,6 +3,7 @@
         "gateway",
         "api",
         "rpc-child",
-        "background"
+        "background",
+        "eventemitter"
     ]
 }
