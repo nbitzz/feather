@@ -10,6 +10,14 @@ export class FxChild extends Child {
 
     constructor() {
         super()
+
+        window.addEventListener("message", ({ data }) => {
+            // check if this is a good CTPRequest
+            const { success, data: final } = Standard.CTPRequest.safeParse(data)
+
+            if (!success) return // return if it's not
+            this.processRequest(final) // process if it is
+        })
     }
 
     async destroy() {
@@ -34,14 +42,8 @@ export class FxChild extends Child {
             this.frame.src =
                 "https://discord.com/humans.txt?__feather_rpc_slave"
 
-            window.addEventListener("message", ({ data }) => {
-                // check if this is a good CTPRequest
-                const { success, data: final } =
-                    Standard.CTPRequest.safeParse(data)
-
-                if (!success) return // return if it's not
-                this.processRequest(final) // process if it is
-            })
+            // won't load if we don't append it to body
+            document.body.append(this.frame)
         }
     }
 
