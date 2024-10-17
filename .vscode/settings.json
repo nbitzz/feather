@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "gateway",
         "api",
-        "rpc-child"
+        "rpc-child",
+        "background"
     ]
 }
