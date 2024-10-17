@@ -1,7 +1,7 @@
 {
     "{{firefox}}.manifest_version": 2,
     "{{chrome}}.manifest_version": 3,
-    "name": "feather",
+    "name": "Feather",
     "version": "0.0.1",
     
     "description": "Lightweight, PreMiD-compatible extension which brings Discord rich presence to your browser",
