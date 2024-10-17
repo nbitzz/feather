@@ -22,9 +22,38 @@ type SendPayloadByOpcode = {
     }
 }
 
-export default class Gateway extends EventEmitter<{
-    close: [{ code: CloseReason; message?: string; fatal: boolean }]
-}> {
+export interface GatewaySession {
+    /**
+     * @description The session's ID.
+     */
+    id: string
+    /**
+     * @description The last sequence number provided by the gateway.
+     */
+    sequence: number
+    /**
+     * @description gateway_resume_url provided by the Discord gateway.
+     */
+    resumeUrl: string
+    /**
+     * @description The user that the session operates under.
+     */
+    user: Discord.APIUser
+}
+
+export default class Gateway extends EventEmitter<
+    {
+        close: [{ code: CloseReason; message?: string; fatal: boolean }]
+        open: []
+        ready: [GatewaySession]
+    } & {
+        [x in Discord.GatewayDispatchEvents as `dispatch:${Discord.GatewayDispatchEvents}`]: [
+            (Discord.GatewayDispatchPayload & {
+                t: x
+            })["d"]
+        ]
+    }
+> {
     /**
      * @description Current WebSocket used by the gateway..
      */
@@ -43,12 +72,7 @@ export default class Gateway extends EventEmitter<{
     /**
      * @description Current session used by the Gateway, if any.
      */
-    session?: {
-        id: string
-        sequence: number
-        resumeUrl: string
-        user: Discord.APIUser
-    }
+    session?: GatewaySession
 
     /**
      * @description The token used to connect to the gateway.
@@ -143,9 +167,13 @@ export default class Gateway extends EventEmitter<{
                         sequence: sequence,
                         user: data.user,
                     }
+                    // Let's tell everyone the gateway's ready for use.
+                    this.emit("ready", this.session)
                 } else {
-                    // We get a sequence number with each Dispatch; let's save it
+                    // We get a sequence number with each Dispatch; let's save it.
                     this.session!.sequence = sequence
+                    // emit dispatch event
+                    this.emit(`dispatch:${dispatchType}`, data)
                 }
             case Discord.GatewayOpcodes.InvalidSession:
                 // Resume if we can, else identify
@@ -223,9 +251,15 @@ export default class Gateway extends EventEmitter<{
                 this.onMessage(this.preprocessor.out(message.data))
             )
 
-            this.ws.addEventListener("close", ev =>
-                this.onClose(ev.code, ev.reason)
+            this.ws.addEventListener(
+                "close",
+                ({ code, reason }) => this.onClose(code, reason),
+                { once: true }
             )
+
+            this.ws.addEventListener("open", _ => this.emit("open"), {
+                once: true,
+            })
 
             // Wait for socket to open to resolve
             this.waitForOpen().then(res).catch(rej)
