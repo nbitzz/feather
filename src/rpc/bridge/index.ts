@@ -14,7 +14,10 @@ chrome.runtime.onMessage.addListener(message => {
     frame.contentWindow?.postMessage(request, "https://discord.com")
 })
 
-window.addEventListener("message", ({ data }) => {
+window.addEventListener("message", ({ data: request }) => {
     // let's send this up to our background to be processed
-    chrome.runtime.sendMessage({})
+    chrome.runtime.sendMessage({
+        target: "browser",
+        request,
+    })
 })
